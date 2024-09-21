@@ -2,7 +2,7 @@
 
 ## SousChef-Copilot
 
-As the power of AI and Machine Learning models has increased, it has opened the opportunity for these technologies to help assist people in everyday life. Often given the name "copilots", they take prompts and deliver solutions that borrow from a large array of information that is either inaccessible, hard to find, or hard to parse through for the user. Depending on the copilot being used, the variety of the types of user prompts can be wide, whether it is text, an image, or audio file. With regards to image prompts, there are many models that can identify a wide variety of objects present in a single image, despite how cluttered the image may be. 
+As the power of AI and Machine Learning models has increased, it has opened the opportunity for these technologies to help assist people in everyday life. Often given the name "copilots", they take prompts and deliver solutions that borrow from a large array of information that is either inaccessible, hard to find, or hard to parse through for the user. Depending on the copilot being used, the types of user prompts can vary to include text, images, or audio files, which can be used in tandom to provide more refined answers to the questions asked. With regards to image prompts, there are many models that can identify a wide variety of objects present in a single image, despite how cluttered the image may be. Therefore, the SousChef copilot was envisioned as a form of copilot that could be used by any person to discover new recipes and food ideas based on ingredients they may either have in their homes, or items they see out in the world. By encorporating together the capabilities of these varies third party APIs, a person should be able to find a vareity of recipes with only a picture.
 
 ** **
 
@@ -36,12 +36,16 @@ The SousChef Copilot will offer an integrated and streamlined solution for a var
 
 ## 3.   Scope and Features Of The Project:
 
+The vision for this copilot is for it to be able to identify recipes based on user-given images, and be able to curtail those recipes based on further instructions given either before or after the image is submitted. Therefore, features of the copilot will include:
 
+- Ability to accept multiple forms of user prompts: text and image (maybe audio later?)
+- API that can identify multiples objects present in an image and feed those as inputs to a recipe finder prompt
+- Can provide substitutions for ingredients, upon user request or if the ingredients aren't found in the given image
+- Can curtail recipes to the users request (hot vs. cold, cultural, etc.)
 
 ** **
 
 ## 4. Solution Concept
-
 
 Global Architectural Structure Of the Project:
 
