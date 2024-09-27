@@ -1,0 +1,2 @@
+In this folder you can find an example of Gemini (Google's AI) can be prompted to deliver recipe results based on images of ingredients. However, unlike these examples, where multiple, separate prompts
+were used to get to an answer, SousChef copilot would use background templates to translate the photo directly into a recipe the user could want. Then, based on additional prompts from the user it could be adjusted.
