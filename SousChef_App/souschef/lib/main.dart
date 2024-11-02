@@ -37,18 +37,18 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   
-  var current = "test";
+  // var current = "test";
 
-  var favorites = <String>[];
+  // var favorites = <String>[];
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
+  // void toggleFavorite() {
+  //   if (favorites.contains(current)) {
+  //     favorites.remove(current);
+  //   } else {
+  //     favorites.add(current);
+  //   }
+  //   notifyListeners();
+  // }
 
 }
 
@@ -180,14 +180,14 @@ class _GeneratorPageState extends State<GeneratorPage>
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var pair = appState.current;
+    // var pair = appState.current;
 
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
+    // IconData icon;
+    // if (appState.favorites.contains(pair)) {
+    //   icon = Icons.favorite;
+    // } else {
+    //   icon = Icons.favorite_border;
+    // }
 
     return Center(
       child: Column(
@@ -198,23 +198,23 @@ class _GeneratorPageState extends State<GeneratorPage>
           ElevatedButton.icon(
             onPressed: _pickImage,
             icon: Icon(Icons.camera),
-            label: Text('Take Picture'),
+            label: Text('Start Recipe Generation'),
           ),
 
-          ElevatedButton.icon(
-            onPressed: sendToGeminiAPI,
-            icon: Icon(Icons.food_bank),
-            label: Text('Generate Recipe'),
-          ),
+          // ElevatedButton.icon(
+          //   onPressed: sendToGeminiAPI,
+          //   icon: Icon(Icons.food_bank),
+          //   label: Text('Generate Recipe'),
+          // ),
           
-          ElevatedButton.icon(
-            onPressed: () {
-              appState.toggleFavorite();
-            },
-            icon: Icon(icon),
-            label: Text('Favorite Recipe'),
-          ),
-          SizedBox(width: 10)
+          // ElevatedButton.icon(
+          //   onPressed: () {
+          //     appState.toggleFavorite();
+          //   },
+          //   icon: Icon(icon),
+          //   label: Text('Favorite Recipe'),
+          // ),
+          // SizedBox(width: 10)
         ],
           
       ),
