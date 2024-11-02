@@ -1,7 +1,16 @@
-import 'package:english_words/english_words.dart';
+
+import 'dart:io';
+import 'package:souschef/favorites.dart';
+import 'package:souschef/settings.dart';
+import 'package:souschef/image_gen.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'dart:convert';
+import 'package:http/http.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -27,14 +36,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
+  
+  var current = "test";
 
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  var favorites = <WordPair>[];
+  var favorites = <String>[];
 
   void toggleFavorite() {
     if (favorites.contains(current)) {
@@ -46,8 +51,6 @@ class MyAppState extends ChangeNotifier {
   }
 
 }
-
-// ...
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -64,10 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (selectedIndex) {
       case 0:
       page = GeneratorPage();
-    case 1:
+      case 1:
       page = FavoritesPage();
-    default:
-      throw UnimplementedError('no widget for $selectedIndex');
+      case 2:
+      page = SettingsPage();
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
   }
 
     return LayoutBuilder(
@@ -86,6 +91,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     NavigationRailDestination(
                       icon: Icon(Icons.favorite),
                       label: Text('Favorited Recipes'),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.settings),
+                      label: Text('Settings'),
                     ),
                   ],
                   selectedIndex: selectedIndex,
@@ -110,8 +119,64 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+class GeneratorPage extends StatefulWidget {
+  @override
+  _GeneratorPageState createState() => _GeneratorPageState();
+}
 
-class GeneratorPage extends StatelessWidget {
+class _GeneratorPageState extends State<GeneratorPage>
+ {
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+  // final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+  final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+  if (image != null) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context)
+ => ImageDisplayScreen(image: File(image.path)),
+      ),
+    );
+  }
+}
+
+
+  Future<void> sendToGeminiAPI() async {
+    if (_selectedImage != null) {
+      // Convert image to base64
+      final bytes = await _selectedImage!.readAsBytes();
+      final base64Image = base64Encode(bytes);
+
+      // Construct the Gemini API prompt
+      final prompt = "Please provide a recipe based on the following image: $base64Image. Include the list of ingredients.";
+
+      // Send the prompt to the Gemini API
+      // Replace 'YOUR_API_KEY' with your actual API key
+      final response = await post(
+        Uri.parse('https://api.gemini.google.com/v1/generate'),
+        headers: {
+          'Authorization': 'Bearer AIzaSyChgPKJQpl_7c0Okvsy4NXXMxJcRxNlUEc'
+        },
+        body: jsonEncode({
+          'prompt': prompt,
+          'model': 'text-bison-001' // Or another suitable model
+        })
+      );
+
+      // Handle the API response
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        print(responseData['text']); // Print the generated recipe
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -130,82 +195,30 @@ class GeneratorPage extends StatelessWidget {
         children: [
           Text('SousChef Copilot'),
           SizedBox(height: 10),
-          // BigCard(pair: pair),
-          ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Take Picture'),
-              ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
-                },
-                icon: Icon(icon),
-                label: Text('Favorite Recipe'),
-              ),
-              SizedBox(width: 10)
-            ],
+          ElevatedButton.icon(
+            onPressed: _pickImage,
+            icon: Icon(Icons.camera),
+            label: Text('Take Picture'),
           ),
+
+          ElevatedButton.icon(
+            onPressed: sendToGeminiAPI,
+            icon: Icon(Icons.food_bank),
+            label: Text('Generate Recipe'),
+          ),
+          
+          ElevatedButton.icon(
+            onPressed: () {
+              appState.toggleFavorite();
+            },
+            icon: Icon(icon),
+            label: Text('Favorite Recipe'),
+          ),
+          SizedBox(width: 10)
         ],
+          
       ),
     );
   }
 }
 
-// class BigCard extends StatelessWidget {
-//   const BigCard({
-//     super.key,
-//     required this.pair,
-//   });
-
-//   final WordPair pair;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final theme = Theme.of(context);
-
-//     final style = theme.textTheme.displayMedium!.copyWith(
-//       color: theme.colorScheme.onPrimary,
-//     );
-
-//     return Card(
-//       color: theme.colorScheme.primary,
-//       child: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Text(pair.asLowerCase, style: style),
-//       ),
-//     );
-//   }
-// }
-
-class FavoritesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
-    if (appState.favorites.isEmpty) {
-      return Center(
-        child: Text('No favorites yet.'),
-      );
-    }
-
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text('Your favorite recipes:'),
-        ),
-        for (var pair in appState.favorites)
-          ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(pair.asLowerCase),
-          ),
-      ],
-    );
-  }
-}
