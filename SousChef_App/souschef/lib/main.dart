@@ -159,7 +159,7 @@ class _GeneratorPageState extends State<GeneratorPage>
       final response = await post(
         Uri.parse('https://api.gemini.google.com/v1/generate'),
         headers: {
-          'Authorization': 'Bearer AIzaSyChgPKJQpl_7c0Okvsy4NXXMxJcRxNlUEc'
+          'Authorization': 'Bearer API_KEY'
         },
         body: jsonEncode({
           'prompt': prompt,
