@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'recipe_text.dart';
@@ -22,7 +23,7 @@ class _ImageDisplayScreenState extends State<ImageDisplayScreen> {
   late GenerativeModel geminiModel;
   @override
   void initState() {
-    final apiKey = Platform.environment['GEMINI_API_KEY'];
+    final apiKey = dotenv.env['GEMINI_API_KEY'];
     if (apiKey == null) {
     stderr.writeln(r'No $GEMINI_API_KEY environment variable');
     exit(1);

@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:souschef/favorites.dart';
 import 'package:souschef/settings.dart';
 import 'package:souschef/image_gen.dart';
@@ -7,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future <void> main() async {
+
+  await dotenv.load(fileName: '.env');
   runApp(MyApp());
 }
 
