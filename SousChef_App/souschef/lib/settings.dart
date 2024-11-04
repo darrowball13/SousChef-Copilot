@@ -20,6 +20,9 @@ class SettingsPage extends StatelessWidget {
           SizedBox(height: 10),
           ElevatedButton(
                 onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => AboutScreen(),
+                    ));
                 },
                 child: Text('Account Info'),
               ),
@@ -39,5 +42,20 @@ class SettingsPage extends StatelessWidget {
       ),
     );
     
+  }
+}
+
+class AboutScreen extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Account Info'),
+      ),
+      body: Center(
+        child: Text("Name"),
+      ),
+    );
   }
 }
