@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  
+
 }
 
 class MyHomePage extends StatefulWidget {
