@@ -23,35 +23,68 @@ class _FavoritesPageState extends State<FavoritesPage> {
     });
   }
 
+  Future<void> _deleteRecipe(int id) async {
+    await DatabaseHelper.instance.deleteRecipe(id);
+    _loadRecipes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: _recipes.length,
       itemBuilder: (context, index) {
         final recipe = _recipes[index];
-        return ListTile(
-          title: Text(recipe.text),
-          // Add other details like timestamp, etc., as needed
-        );
+       return Dismissible(
+          key: Key(recipe.id.toString()),
+
+          background: Container(color: Colors.red),
+          onDismissed: (direction) {
+            _deleteRecipe(recipe.id!);
+          },
+          child: ListTile(
+            title: Text(recipe.name),
+
+            onTap: () {
+            // Navigate to a new screen or dialog to display the full recipe
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RecipeDetailsScreen(recipe: recipe),
+              ),
+            );
+          },
+            
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                _deleteRecipe(recipe.id!);
+              },
+            ),
+          ),
+       );
       },
     );
   }
 }
 
+class RecipeDetailsScreen extends StatelessWidget {
+  final Recipe recipe;
 
-// import 'package:flutter/material.dart';
+  const RecipeDetailsScreen({required this.recipe});
 
-// class FavoritesPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-    
-//     return ListView(
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(20),
-//           child: Text('Your favorite recipes:'),
-//         ), 
-//       ],
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(recipe.name),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(recipe.text),
+
+      ),
+    );
+  }
+}
+
+

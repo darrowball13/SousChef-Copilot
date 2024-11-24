@@ -9,8 +9,9 @@ void main() {
 
 class RecipeScreen extends StatelessWidget {
   final String recipe;
+  final TextEditingController nameController = TextEditingController();
 
-  const RecipeScreen({super.key, required this.recipe});
+  RecipeScreen({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,17 @@ class RecipeScreen extends StatelessWidget {
               },
             ),
             const SizedBox(width: 300, height: 20),
+
+          SizedBox(
+            width: 300,
+            child: TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                labelText: 'Recipe Name',
+              ),
+            ),
+          ),
+
           
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -50,7 +62,7 @@ class RecipeScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    final recipeToSave = Recipe(text: recipe);
+                    final recipeToSave = Recipe(text: recipe, name: nameController.text,);
                     await DatabaseHelper.instance.insertRecipe(recipeToSave);
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
