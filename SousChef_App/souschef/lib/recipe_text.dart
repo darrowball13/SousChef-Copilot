@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:souschef/database.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -23,17 +24,15 @@ class RecipeScreen extends StatelessWidget {
         child: Column (
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final maxWidth = constraints.maxWidth * 0.8; 
-                
-                return Container(
-                  constraints: BoxConstraints(maxWidth: maxWidth),
-                  child: SingleChildScrollView(
-                    child: Text(recipe, overflow: TextOverflow.ellipsis)),
-                );
-                
-              },
+            const SizedBox(height: 20),            
+            Expanded(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Text(recipe),
+                ),
+              ),
             ),
       
           SizedBox(

@@ -80,8 +80,7 @@ class RecipeDetailsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Text(recipe.text),
-
+        child: SingleChildScrollView(child: Text(recipe.text),),
       ),
     );
   }
