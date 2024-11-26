@@ -25,15 +25,17 @@ class RecipeScreen extends StatelessWidget {
           children: [
             LayoutBuilder(
               builder: (context, constraints) {
-                final maxWidth = constraints.maxWidth * 0.8; // 80% of screen width
+                final maxWidth = constraints.maxWidth * 0.8; 
+                
                 return Container(
                   constraints: BoxConstraints(maxWidth: maxWidth),
-                  child: Text(recipe),
+                  child: SingleChildScrollView(
+                    child: Text(recipe, overflow: TextOverflow.ellipsis)),
                 );
+                
               },
             ),
-            const SizedBox(width: 300, height: 20),
-
+      
           SizedBox(
             width: 300,
             child: TextField(
