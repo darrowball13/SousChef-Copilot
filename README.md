@@ -38,7 +38,7 @@ The SousChef Copilot will offer an integrated and streamlined solution for a var
 
 The vision for this copilot is for it to be able to identify recipes based on user-given images, and be able to curtail those recipes based on further instructions given either before or after the image is submitted. Therefore, features of the copilot will include:
 
-- Ability to accept multiple forms of user prompts: text and image (maybe audio later?)
+- Ability to accept multiple forms of user prompts: text and image
 - API that can identify multiples objects present in an image and feed those as inputs to a recipe finder prompt
 - Can provide substitutions for ingredients, upon user request or if the ingredients aren't found in the given image
 - Can curtail recipes to the users request (hot vs. cold, cultural, etc.)
@@ -47,11 +47,10 @@ The vision for this copilot is for it to be able to identify recipes based on us
 
 ## 4. Solution Concept
 
-Global Architectural Structure Of the Project:
+Process Flow:
 
-This section provides a high-level architecture or a conceptual diagram showing the scope of the solution. If wireframes or visuals have already been done, this section could also be used to show how the intended solution will look. This section also provides a walkthrough explanation of the architectural structure.
+![SousChef Process Flow](https://github.com/user-attachments/assets/2f05070a-ec33-4c1a-b7e1-3d26279170f0)
 
- 
 
 Design Implications and Discussion:
 
