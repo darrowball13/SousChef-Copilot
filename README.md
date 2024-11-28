@@ -51,10 +51,9 @@ Process Flow:
 
 ![SousChef Process Flow](https://github.com/user-attachments/assets/2f05070a-ec33-4c1a-b7e1-3d26279170f0)
 
+## 5. Video Demonstration
 
-Design Implications and Discussion:
 
-This section discusses the implications and reasons of the design decisions made during the global architecture design.
 
 ** **
 
